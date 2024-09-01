@@ -2,14 +2,41 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import 'bootstrap/dist/css/bootstrap.css';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import CreateRoute from './pages/CreateRoute';
+import MapView from './pages/MapView';
+import RouteMapView from './pages/RouteMapView';
+import GoogleAutoComplete from './components/common/ui/GoogleAutoComplete';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const routes = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <RouteMapView />
+      }, {
+        path: "create",
+        element: <CreateRoute />
+      },
+      {
+        path: "edit/:id",
+        element: <CreateRoute />
+      }
+    ]
+  },
+
+])
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={routes} />
   </React.StrictMode>
 );
 
