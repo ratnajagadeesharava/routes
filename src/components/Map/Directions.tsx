@@ -47,34 +47,34 @@ function Directions({ route }: { route: Route }) {
         }).then(
             res => {
                 directionsRenderer.setDirections(res);
-                const direction = res.routes[0].legs[0];
-                const originMarker = new google.maps.Marker({
-                    position: direction.start_location,
-                    map: map,
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 1,
-                        fillColor: "#4285f4",
-                        fillOpacity: 1,
-                        strokeColor: "#FFFFFF",
-                        strokeWeight: 1,
-                    }
-                });
-                const destinationMarker = new google.maps.Marker(
-                    {
-                        position: direction.end_location,
-                        map: map,
+                // const direction = res.routes[0].legs[0];
+                // const originMarker = new google.maps.Marker({
+                //     position: direction.start_location,
+                //     map: map,
+                //     icon: {
+                //         path: google.maps.SymbolPath.CIRCLE,
+                //         scale: 1,
+                //         fillColor: "#4285f4",
+                //         fillOpacity: 1,
+                //         strokeColor: "#FFFFFF",
+                //         strokeWeight: 1,
+                //     }
+                // });
+                // const destinationMarker = new google.maps.Marker(
+                //     {
+                //         position: direction.end_location,
+                //         map: map,
 
-                        icon: {
-                            path: google.maps.SymbolPath.BACKWARD_OPEN_ARROW,
-                            scale: 7,
-                            fillColor: "#4285f4",
-                            fillOpacity: 1,
-                            strokeColor: "#FFFFFF",
-                            strokeWeight: 1,
-                        }
-                    }
-                );
+                //         icon: {
+                //             path: google.maps.SymbolPath.BACKWARD_OPEN_ARROW,
+                //             scale: 7,
+                //             fillColor: "#4285f4",
+                //             fillOpacity: 1,
+                //             strokeColor: "#FFFFFF",
+                //             strokeWeight: 1,
+                //         }
+                //     }
+                // );
                 // markerRefs.current.push(originMarker);
                 // markerRefs.current.push(destinationMarker);
 
