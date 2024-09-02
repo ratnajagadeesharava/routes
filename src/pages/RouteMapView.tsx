@@ -1,45 +1,23 @@
-import { useEffect, useState } from 'react';
-import MapView from '../components/Map/MapView';
-import Route from '../components/common/models/Route';
-import { useSelector, useStore } from 'react-redux';
-import { RootState } from '../store/store';
+import React, {memo, Suspense, useState } from 'react';
 import RouteCard from '../components/Route/RouteCard';
-import { useNavigate, useParams } from 'react-router-dom';
-import Popup from '../components/common/ui/Modal';
+import { useNavigate } from 'react-router-dom';
+import useRoutes from '../hooks/useRoutes';
 import Modal from '../components/common/ui/Modal';
+import useExport from '../hooks/useExport';
+// TODO:add pagination
 function RouteMapView() {
-    const { routes } = useSelector((state: RootState) => state.routes);
+    const MapView = React.lazy(() => import('../components/Map/MapView'));
     const navigate = useNavigate();
-    const [selectedRoute, setSelectedRoute] = useState<Route | null>(null);
-    const handleRouteClick = (route: Route) => {
-        setSelectedRoute(route);
-    };
     const [isOpen, setIsOpen] = useState(false);
-
-    useEffect(() => {
-        setSelectedRoute(routes[0])
-    }, []);
-
+    const { routes, selectedRoute, handleRouteClick } = useRoutes();
+    const handleExport = useExport(routes);
     const handleAdd = () => {
         navigate('/create')
     }
-    const handleExport =()=>{
-        const blob = new Blob([JSON.stringify(routes)], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = "routes.json";
-        document.body.appendChild(link);
-    
-        link.click();
-        
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-    }
-
+    console.log(routes);
     return (
         <div className="flex h-screen bg-gray-900 text-white">
-           <Modal isOpen={isOpen} setIsOpen={setIsOpen}  />
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
             <div className="w-1/3 p-4 pb-20 h-screen flex flex-col justify-between ">
                 <div className=''>
                     <h1 className="text-2xl font-bold mb-4">Routes</h1>
@@ -56,16 +34,18 @@ function RouteMapView() {
                 </div>
                 <div className="add-buttons flex justify-evenly items-center mt-4">
                     <button className="button text-white bg-teal-500 font-bold py-2 px-4 rounded" onClick={handleAdd}>Add Route</button>
-                    <button className="button text-white bg-teal-500 font-bold py-2 px-4 rounded" onClick={()=>setIsOpen(true)}>bulk upload</button>
+                    <button className="button text-white bg-teal-500 font-bold py-2 px-4 rounded" onClick={() => setIsOpen(true)}>bulk upload</button>
                     <button className="button text-white bg-teal-500 font-bold py-2 px-4 rounded" onClick={handleExport}>Export</button>
                 </div>
             </div>
             <div className="w-2/3 h-100 p-4">
                 <div className="bg-gray-800 h-full rounded-3xl relative p-4">
+                    <Suspense fallback={<div>Loading...</div>}>
                     {selectedRoute && <MapView route={selectedRoute} />}
+                    </Suspense>
                 </div>
             </div>
         </div>
     );
 };
-export default RouteMapView;
+export default memo(RouteMapView);

@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CreateRoute from './pages/CreateRoute';
-import MapView from './pages/MapView';
 import RouteMapView from './pages/RouteMapView';
 import GoogleAutoComplete from './components/common/ui/GoogleAutoComplete';
 

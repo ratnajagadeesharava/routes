@@ -1,4 +1,4 @@
-import React from 'react'
+import  { memo } from 'react'
 import Route from '../common/models/Route'
 import { useNavigate } from 'react-router-dom';
 import { useStore } from 'react-redux';
@@ -59,5 +59,5 @@ function RouteCard({ route, selectedRoute, handleRouteClick }: { route: Route, s
         </div>
     )
 }
-export default RouteCard
+export default memo(RouteCard);
 

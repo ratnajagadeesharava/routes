@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import GooglePlacesAutocomplete, { geocodeByPlaceId, getLatLng } from 'react-google-places-autocomplete'
 import { Position } from '../models/Maps.Model'
-import { error } from 'console'
-import { Stop } from '../models/Route'
-function GoogleAutoComplete({ stop, handleStop }: { stop: Stop, handleStop: (stop: Stop) => void }) {
-  const [value, setValue] = React.useState<any>(null)
+
+import { Stop } from '../models/Route';
+interface PlaceValue {
+  label: string;
+  value: {
+    place_id: string;
+    description: string;
+  };
+}
+interface GoogleAutoCompleteProps {
+  stop: Stop;
+  handleStop: (stop: Stop) => void;
+}
+function GoogleAutoComplete({ stop, handleStop }: GoogleAutoCompleteProps) {
+  const [value, setValue] = React.useState<PlaceValue|null>(null)
   const [position, setPosition] = React.useState<Position>()
-  function handleChange(address: any) {
+  const handleChange= useCallback((address: any)=> {
     setValue(address)
     geocodeByPlaceId(address.value.place_id)
       .then(results => getLatLng(results[0]))
@@ -20,7 +31,8 @@ function GoogleAutoComplete({ stop, handleStop }: { stop: Stop, handleStop: (sto
       ).catch((error) => {
         console.log('error', error)
       });
-  }
+  },[ stop, handleStop]);
+
   return (
     <div className='w-80'>
       <GooglePlacesAutocomplete
