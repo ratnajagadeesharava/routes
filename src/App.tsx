@@ -10,7 +10,7 @@ function App() {
     <Provider store={routeStore}>
       <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''}>
         <div className="App bg-slate-800 h-screen m-0">
-          {/* <Header /> */}
+         
           <Outlet />
         </div>
       </APIProvider>
