@@ -3,5 +3,5 @@
     overflow-y: scroll;
 }
 .modal-overlay{
-    z-index: 100;
+    z-index: 1000;
 }
